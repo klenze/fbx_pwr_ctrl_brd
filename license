@@ -1,0 +1,17 @@
+License for src/uart.h and src/uart.c:
+
+  Copyright (c) 2006-2010 by Roland Riegel <feedback@roland-riegel.de>
+  
+  This file is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License version 2 as
+  published by the Free Software Foundation.
+  
+License for everything else:
+
+  Copyright 2019 by Philipp Klenze.
+
+  These files are free software; you can redistribute them and/or modify
+  them under the terms of the GNU General Public License version 2
+  or, at your option, any later version, as published by the Free
+  Software Foundation.
+

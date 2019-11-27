@@ -1,0 +1,59 @@
+FEBEX power delay/control firmware
+
+== Introduction ==
+
+Using an arduino nano to control a FETT which can turna 12V
+supply voltage for a FEBEX 3 crate on/off.
+
+GSI FEBEX crates feature a DC-DC converter which provides
+12V DC at up to some 20 amps.
+
+However, due to a suboptimal design choice for our
+FEBEX Addon Board (FAB), the secondary DC-DCs on the FAB
+draw much current during startup, keeping the primary DC-DC
+at circa 3V. Rather than throwing away all of our FABs, we
+decided to add a PCB between the primary DC-DC board and the
+crate backplane.
+
+This new board:
+
+* Charges a big cap (~ 10mF) over a resistor (22R). The cap
+  can be discharged over a diode, providing the current boost
+  needed for turning our secondary DC-DCs on. 
+
+* Features an arduino nano as a (kinda) component 
+
+* Contains a big FET (Vishay - SI7157DP) which can turn
+  the 12V lane between primary DC-DC and backplane on/off
+
+* Measures the input, output and cap voltage with the build-in
+  ADC.
+
+* Measures the current using a shunt-resistor and a MAX9611 high-
+  side current sensing IC (just becase we can).
+
+
+When turned on, the firmware waits for the cap to be reasonable full.
+As soon as that happens, it turns on the FET, providing the voltage
+to the backplane. When the input voltage falls below a much lower
+threshold, we assume that we have lost power and turn the FET off
+again.
+
+Additionally, a serial connection is provided. Over it, a user can
+get read the various measurements as well as power toggle the
+backplane. 
+
+
+== Using ==
+
+For use with the ino tool (http://inotool.org/)
+
+Use make to compile, ino upload to flash the atmega,
+and screen /dev/ttyWhatEver 115200 to connect to the
+serial interface.
+
+== Remarks on design choice ==
+
+We decided on using a Nano instead of placing a uC directly on the
+board because we only needed a few boards, and using off-the-shelf
+components when you can simplifies matters.
